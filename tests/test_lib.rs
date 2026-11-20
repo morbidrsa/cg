@@ -6,8 +6,8 @@ fn basic01() {
     let data = "name,age,city\nAlice,30,Berlin\nBob,25,Munich";
     let exp = StringRecord::from(vec!["Alice", "30", "Berlin"]);
     let conf = Config {
-        row: "city".into(),
-        col: "Berlin".into(),
+        col: "city".into(),
+        val: "Berlin".into(),
         headers: true,
     };
 
@@ -22,8 +22,8 @@ fn basic02() {
     let exp1 = StringRecord::from(vec!["Alice", "30", "Berlin"]);
     let exp2 = StringRecord::from(vec!["Bob", "25", "Berlin"]);
     let conf = Config {
-        row: "city".into(),
-        col: "Berlin".into(),
+        col: "city".into(),
+        val: "Berlin".into(),
         headers: true,
     };
 

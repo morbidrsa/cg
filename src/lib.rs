@@ -4,8 +4,8 @@ use std::error::Error;
 use std::vec::Vec;
 
 pub struct Config {
-    pub row: String,
     pub col: String,
+    pub val: String,
     pub headers: bool,
 }
 
@@ -22,7 +22,7 @@ pub fn run(data: &str, conf: Config) -> Result<Vec<StringRecord>, Box<dyn Error>
         .collect();
 
     let target_col_idx = *header_map
-        .get(conf.row.as_str())
+        .get(conf.col.as_str())
         .ok_or("Column not found")?;
 
     let mut record = StringRecord::new();
@@ -30,7 +30,7 @@ pub fn run(data: &str, conf: Config) -> Result<Vec<StringRecord>, Box<dyn Error>
     let mut results = Vec::new();
     while rdr.read_record(&mut record)? {
         if let Some(val) = record.get(target_col_idx) {
-            if val == conf.col {
+            if val == conf.val {
                 results.push(record.to_owned());
             }
         }
