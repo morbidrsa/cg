@@ -2,9 +2,14 @@
 name = "cg"
 version = "0.1.0"
 edition = "2024"
-license-file = "LICENSE"
+license = "GPL-3.0-only"
 description = "cg - A grep for CSV"
 
 [dependencies]
 clap = { version = "4.6.9", features = ["derive"] }
 csv = "1.4.0"
+
+[package.metadata.generate-rpm]
+assets = [
+    { source = "target/release/cg", dest = "/usr/bin/cg", mode = "0755" },
+]
