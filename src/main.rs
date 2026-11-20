@@ -8,6 +8,21 @@ pub fn main() -> Result<(), Box<dyn Error>> {
     let data = read_to_string(file)?;
 
     let res = run(&data, conf)?;
-    println!("{:?}", res);
+
+    for row in res {
+        let mut first = true;
+
+        for col in row.iter() {
+            if first {
+                first = false;
+                print!("{}", col);
+            } else {
+                print!(",{}", col);
+            }
+        }
+
+        println!();
+    }
+
     Ok(())
 }
