@@ -1,17 +1,13 @@
 use std::error::Error;
+use std::fs::read_to_string;
 
-use cg::{Config, run};
+use cg::{run, Config};
 
 pub fn main() -> Result<(), Box<dyn Error>> {
-    let data = "name,age,city\nAlice,30,Berlin\nBob,25,Munich";
-    let conf = Config {
-        col: "city".into(),
-        val: "Berlin".into(),
-        headers: true,
-    };
+    let (conf, file) = Config::from_args();
+    let data = read_to_string(file)?;
 
-    let res = run(data, conf)?;
+    let res = run(&data, conf)?;
     println!("{:?}", res);
     Ok(())
 }
-

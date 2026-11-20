@@ -1,12 +1,43 @@
+use clap::Parser;
 use csv::{ReaderBuilder, StringRecord};
 use std::collections::HashMap;
 use std::error::Error;
 use std::vec::Vec;
 
+#[derive(Parser, Debug)]
+#[command(name = "cg", version = "0.1", about = "grep for CVS", long_about = None)]
+struct Args {
+    #[arg(short = 'c', long = "column", help = "Name of the row to grep in")]
+    col: String,
+    #[arg(short = 'v', long = "value", help = "The value to search for")]
+    value: String,
+    #[arg(
+        short = 'H',
+        long = "headers",
+        help = "The CSV has headers",
+        default_value_t = true
+    )]
+    headers: bool,
+    file: String,
+}
+
 pub struct Config {
     pub col: String,
     pub val: String,
     pub headers: bool,
+}
+
+impl Config {
+    pub fn from_args() -> (Config, String) {
+        let args = Args::parse();
+        let cfg = Config {
+            col: args.col,
+            val: args.value,
+            headers: args.headers,
+        };
+
+        (cfg, args.file)
+    }
 }
 
 pub fn run(data: &str, conf: Config) -> Result<Vec<StringRecord>, Box<dyn Error>> {
