@@ -1,15 +1,17 @@
-use csv::Reader;
+use csv::ReaderBuilder;
 use std::collections::HashMap;
 use std::error::Error;
 
 pub fn main() -> Result<(), Box<dyn Error>> {
     let data = "name,age,city\nAlice,30,Berlin\nBob,25,Munich";
 
-    run(data, "city", "Berlin")
+    run(data, "city", "Berlin", true)
 }
 
-fn run(data: &str, row: &str, col: &str) -> Result<(), Box<dyn Error>> {
-    let mut rdr = Reader::from_reader(data.as_bytes());
+fn run(data: &str, row: &str, col: &str, headers: bool) -> Result<(), Box<dyn Error>> {
+    let mut rdr = ReaderBuilder::new()
+        .has_headers(headers)
+        .from_reader(data.as_bytes());
 
     let headers = rdr.headers()?.clone();
     let header_map: HashMap<&str, usize> = headers
